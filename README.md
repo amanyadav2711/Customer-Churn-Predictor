@@ -1,208 +1,126 @@
-# Customer Churn Prediction App
+# 📊 Customer Churn Prediction & Retention Analytics
 
-## 📌 Project Overview
+An end-to-end Machine Learning web application built with **Streamlit**, **Scikit-Learn**, **XGBoost**, and **SHAP** to predict telecom customer churn probability and identify key drivers influencing churn.
 
-Customer churn is a critical problem for subscription-based businesses, as retaining existing customers is significantly more cost-effective than acquiring new ones.
-
-This project builds an **end-to-end Machine Learning system** to predict customer churn probability using customer demographics, service usage, and billing data.
-
-The solution goes beyond just modeling and focuses on the **complete ML lifecycle**, including:
-
-- Exploratory Data Analysis (EDA)
-- Feature engineering & preprocessing
-- Model training and comparison
-- Class imbalance handling
-- Threshold optimization
-- Model explainability using SHAP
-- Deployment with Streamlit
-
-Users can input customer information and receive a **real-time churn probability prediction along with model insights**.
+![Streamlit](https://img.shields.io/badge/Streamlit-1.54.0-FF4B4B?style=flat&logo=Streamlit)
+![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=flat&logo=python)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.7-F7931E?style=flat&logo=scikit-learn)
+![XGBoost](https://img.shields.io/badge/XGBoost-3.2-EB5424?style=flat)
 
 ---
 
+## 🌟 Features
 
-
-
-
-## 📊 Dataset
-
-This project uses the **Telco Customer Churn Dataset** available on Kaggle.
-
-Dataset Link:  
-https://www.kaggle.com/datasets/blastchar/telco-customer-churn
-
-- **7043 customer records**
-- **21 features**
-
-### Feature Categories:
-
-- Customer demographics (gender, partner, dependents, senior citizen)
-- Account information (tenure, contract type, billing method)
-- Services subscribed (internet, streaming, security, tech support)
-- Billing information (monthly charges, total charges)
-- Target variable: **Churn**
-
-The goal is to build models that **predict customer churn probability** and enable data-driven retention strategies.
+- **Multi-Model Churn Prediction:** Compare real-time predictions from **Random Forest**, **XGBoost**, and **Logistic Regression**.
+- **SHAP Explainable AI (XAI):** Local waterfall plots explain *why* an individual customer is flagged at risk, alongside global beeswarm summary plots.
+- **Preset Customer Profiles:** Instantly test High Risk, Loyal Long-term, and Custom customer scenarios.
+- **Model Insights & Feature Importance:** Explore top churn drivers (tenure, contract type, payment method, tech support).
+- **Business Retention Playbook:** Actionable strategies to prevent customer attrition based on data-driven findings.
+- **Optimized for Streamlit Cloud:** Resource caching (`@st.cache_resource`, `@st.cache_data`) for sub-second response times.
 
 ---
 
-## 🛠 Tech Stack
+## 📂 Project Structure
 
-- Python
-- Pandas, NumPy
-- Scikit-learn
-- XGBoost
-- SHAP
-- Matplotlib
-- Streamlit
-- Joblib
-
----
-
-## ⚙️ Machine Learning Pipeline
-
-### 🔹 Numerical Features
-
-- Tenure  
-- MonthlyCharges  
-- TotalCharges  
-
-Processing:
-- Missing value imputation
-- Standard scaling
-
----
-
-### 🔹 Categorical Features
-
-- Gender
-- Contract type
-- Internet service
-- Payment method
-- Service-related features
-
-Processing:
-- Missing value imputation
-- One-hot encoding
+```text
+MLProject-ChurnPrediction-main/
+│
+├── app.py                      # Main Streamlit Application
+├── requirements.txt            # Production dependencies for deployment
+├── README.md                   # Project documentation
+├── .gitignore                  # Git ignore rules (virtual envs, caches)
+│
+├── .streamlit/
+│   └── config.toml             # Streamlit theme and UI configurations
+│
+├── models/                     # Trained ML pipelines & models
+│   ├── logistic_model.pkl      # Logistic Regression pipeline
+│   ├── rf_model.pkl            # Random Forest pipeline
+│   └── xgb_model.pkl           # XGBoost pipeline
+│
+├── data/
+│   └── Telco_Customer_Churn.csv # Telco customer dataset
+│
+└── notebooks/
+    └── Customer_Churn_Prediction.ipynb # Model training & EDA notebook
+```
 
 ---
 
-All preprocessing is handled using a **Scikit-learn ColumnTransformer**, ensuring a clean and reproducible pipeline.
+## 💻 Local Setup & Execution
+
+### 1. Clone or Navigate to the Repository
+```bash
+cd MLProject-ChurnPrediction-main
+```
+
+### 2. Create and Activate a Virtual Environment
+```bash
+# Windows:
+python -m venv .venv
+.venv\Scripts\activate
+
+# Mac/Linux:
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Streamlit App
+```bash
+streamlit run app.py
+```
+The app will automatically open in your browser at `http://localhost:8501`.
 
 ---
 
-## 🤖 Models Used
+## ☁️ How to Deploy on Streamlit Community Cloud (Free)
 
-### 🔹 Logistic Regression
-- Baseline interpretable model  
-- High recall → good at identifying churn customers  
+Deploying takes under 3 minutes:
 
----
+### Step 1: Push to GitHub
+1. Make sure Git is installed on your system.
+2. Initialize repository and commit:
+   ```bash
+   git init
+   git add .
+   git commit -m "Deploy: Customer Churn Prediction App"
+   ```
+3. Create a new repository on [GitHub](https://github.com/new) (e.g. `Customer-Churn-Predictor`).
+4. Link and push your repository:
+   ```bash
+   git remote add origin https://github.com/<YOUR-GITHUB-USERNAME>/<YOUR-REPO-NAME>.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-### 🔹 Random Forest
-- Ensemble model  
-- Captures non-linear relationships  
-- Balanced performance across metrics  
+### Step 2: Deploy on Streamlit Cloud
+1. Go to **[share.streamlit.io](https://share.streamlit.io)** and log in with your GitHub account.
+2. Click **"Create app"** or **"New app"**.
+3. Select your repository: `<YOUR-GITHUB-USERNAME>/<YOUR-REPO-NAME>`.
+4. Set **Branch**: `main`.
+5. Set **Main file path**: `app.py`.
+6. Click **Deploy!** 🎉
 
----
-
-### 🔹 XGBoost
-- Gradient boosting model  
-- Handles class imbalance using `scale_pos_weight`  
-- Strong performance with optimized learning and regularization  
-
----
-
-## 📈 Model Performance
-
-| Model | ROC-AUC | F1 Score | Precision | Recall |
-|------|--------|--------|--------|--------|
-| Logistic Regression | 0.86 | 0.64 | 0.52 | 0.84 |
-| Random Forest | 0.85 | 0.65 | 0.56 | 0.78 |
-| XGBoost | 0.85 | 0.63 | 0.55 | 0.75 |
-
----
-
-## ⚖️ Threshold Optimization
-
-Instead of using a default threshold (0.5), different thresholds were evaluated to balance:
-
-- Precision (avoiding false positives)
-- Recall (capturing churn customers)
-
-This allows businesses to **customize risk tolerance based on strategy**.
+Streamlit Cloud will automatically detect `requirements.txt`, install dependencies, and launch your live web app with a public URL!
 
 ---
 
-## 🔍 Model Explainability (SHAP)
+## 📊 Dataset & Model Performance
 
-To make the model interpretable, **SHAP (SHapley Additive Explanations)** was used:
+The model was trained on the **Telco Customer Churn Dataset** (7,043 customer records):
 
-- Explains **individual predictions**
-- Identifies **global feature importance**
-- Helps understand **why a customer is likely to churn**
-
-### Key Insights from SHAP:
-
-- 📉 Low tenure → higher churn risk  
-- 📉 Month-to-month contracts → strong churn driver  
-- 📈 Higher monthly charges → increased churn probability  
-- ❌ Lack of services (security, tech support) → higher churn  
+| Model | ROC AUC | Recall (Capture Rate) | Precision | F1 Score |
+| :--- | :---: | :---: | :---: | :---: |
+| **Logistic Regression** | **0.86** | **0.84** | 0.52 | 0.64 |
+| **Random Forest** | 0.85 | 0.78 | **0.56** | **0.65** |
+| **XGBoost** | 0.85 | 0.75 | 0.55 | 0.63 |
 
 ---
 
-## 📊 Key Insights
-
-### 📌 Contract Type
-Customers on **month-to-month contracts** show the highest churn probability.
-
-### 📌 Customer Tenure
-Customers with shorter tenure are significantly more likely to churn.
-
-### 📌 Monthly Charges
-Higher monthly charges correlate with increased churn.
-
-### 📌 Internet Service Type
-Customers with **fiber optic service** have higher churn rates.
-
-### 📌 Value-added Services
-Customers without:
-- Online Security  
-- Tech Support  
-- Device Protection  
-
-are more likely to churn.
-
----
-
-## 💡 Business Recommendations
-
-Based on the model insights:
-
-- Encourage **long-term contracts** via incentives  
-- Offer **bundled services** to improve retention  
-- Provide **targeted offers to high-paying customers**  
-- Focus retention strategies on **new customers with low tenure**  
-
----
-
-## 🌐 Deployment
-
-The model is deployed using **Streamlit**, allowing users to:
-
-- Input customer data  
-- Get churn probability instantly  
-- View model explanations using SHAP  
-
----
-
-## 📌 Conclusion
-
-This project demonstrates how to build a **production-ready ML solution** that combines:
-
-- Predictive modeling  
-- Business understanding  
-- Explainability  
-- Deployment  
-
-It highlights the importance of going beyond modeling to deliver **actionable business insights**.
+## 📜 License
+This project is open-source and available under the MIT License.
